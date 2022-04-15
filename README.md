@@ -8,6 +8,8 @@ The tech stack used is Python Scrapy with PostgrSQL.
 
 Scrapped the whole events page including date, time, artists, location, title, sub titles, sponsor.
 
+Plots a bar graph at the end of the scripts with the dates of events and the count of events on each of these dates.
+
 
 ------------------------------------------
 
