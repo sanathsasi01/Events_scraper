@@ -29,6 +29,12 @@ class LucernefestivalPipeline:
         self.cur.execute(create_table_query)
         self.conn.commit()
 
+    def delete_data(self):
+        delete_query = "DELETE FROM Events"
+        self.cur.execute(delete_query)
+        self.conn.commit()
+
+
     def get_plot_data(self):
         get_event_query = "SELECT event_date,COUNT(event_date) as count FROM Events GROUP BY event_date"
         # get_event_query = "SELECT DISTINCT event_date FROM Events"

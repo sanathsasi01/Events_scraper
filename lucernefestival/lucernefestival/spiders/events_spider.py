@@ -14,6 +14,7 @@ class Events(scrapy.Spider):
         'https://www.lucernefestival.ch/en/program/summer-festival-22'
     ]
 
+    # strip and remove unicode and escape characters.
     def clean(self, obj):
         if obj is not None:
             extracted_list = obj.extract()
@@ -22,6 +23,9 @@ class Events(scrapy.Spider):
 
     def parse(self, response, **kwargs):
         item = LucernefestivalItem()
+        db = LucernefestivalPipeline()
+        # clear database 
+        db.delete_data()
         for event in response.css('#event-list div.entry'):
 
             data_date =  event.xpath("@data-date").get()
@@ -57,17 +61,23 @@ class Events(scrapy.Spider):
                 item['location'] = location
                 yield item
  
-        db = LucernefestivalPipeline()
         rows = db.get_plot_data()
 
-        distinct_dates = [r[0] for r in rows]
-        event_count = [r[1] for r in rows]
+        # distinct_dates = [r[0] for r in rows]
+        # event_count = [r[1] for r in rows]
+        distinct_dates = []
+        event_count = []
+        for r in rows:
+            distinct_dates.append(r[0])
+            event_count.append(r[1])
+
 
         fig, ax = plt.subplots()
+        for i, v in enumerate(event_count):
+            ax.text(v + 3, i + .25, str(v), color='blue', fontweight='bold')
         
         # plotting a bar chart
-        plt.bar(distinct_dates, event_count, tick_label = distinct_dates,
-                width = 0.5, color = ['green'])
+        plt.bar(distinct_dates, event_count, tick_label = distinct_dates, width = 0.8, color = ['green'])
 
         # naming the x-axis
         plt.xlabel('Event Dates')
