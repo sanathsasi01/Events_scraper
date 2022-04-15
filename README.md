@@ -19,6 +19,12 @@ To activate the virtual environment
 
     env\Scripts\activate.bat
 
+cd to the project
     
+    cd lucernefestival
+
+run the scrapper
+
+    scrapy crawl lucernefestival
   
 
