@@ -19,6 +19,8 @@ To activate the virtual environment
 
     env\Scripts\activate.bat
 
+Database name : Events
+
 cd to the project
     
     cd lucernefestival
